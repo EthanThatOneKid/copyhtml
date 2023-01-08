@@ -1,4 +1,4 @@
-export function scrape(selectors: string[]) {
+export function scrape(selectors: string[]): string {
   const elements = selectors.map((selector) =>
     document.querySelector(selector)
   );

@@ -6,6 +6,7 @@
     ]
   },
   "tasks": {
-    "generate": "deno run --reload -A build.ts"
+    "generate": "deno run --reload -A generate.ts",
+    "all": "deno fmt && deno lint && deno task generate"
   }
 }

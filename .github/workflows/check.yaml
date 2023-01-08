@@ -23,3 +23,4 @@ jobs:
 
       - run: deno lint && git diff --exit-code
       - run: deno fmt && git diff --exit-code
+      - run: deno task generate && git diff --exit-code

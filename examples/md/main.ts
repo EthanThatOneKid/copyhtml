@@ -2,9 +2,11 @@ import { requireShowdown } from "https://etok.codes/require/raw/main/examples/sh
 
 import { copyHTML } from "../../copyhtml/copyhtml.ts";
 
-await requireShowdown();
-
-copyHTML((html) => {
+const copyMD = copyHTML.bind((html: string) => {
   const converter = new showdown.Converter();
   return converter.makeHtml(html);
 });
+
+requireShowdown()
+  .then(copyMD)
+  .then(console.log);
