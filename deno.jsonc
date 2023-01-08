@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "lib": [
+      "dom",
+      "ES2016"
+    ]
+  },
+  "tasks": {
+    "generate": "deno run --reload -A build.ts"
+  }
+}
