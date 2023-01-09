@@ -1,7 +1,27 @@
+export interface CopyHTMLOptions {
+  render: (output: string) => void | Promise<void>;
+  scrape: () => Promise<string>;
+  transform?: (html: string) => string;
+}
+
 /**
- * copyHTML copies the HTML of the elements specified by the user to the clipboard.
+ * processHTML processes the raw HTML from the scrape function and renders it
+ * using the render function. Optionally, the HTML can be transformed into a
+ * new data format before rendering.
  */
-export async function copyHTML(transform?: (html: string) => string) {
+export async function processHTML(options: CopyHTMLOptions) {
+  const html = await options.scrape();
+  options.render(options.transform ? options.transform(html) : html);
+}
+
+export async function defaultScrape(): Promise<string> {
+  const selectors = await defaultPrompt();
+  const elements = selectors.map((sel) => document.querySelector(sel));
+  const html = elements.map((element) => element?.outerHTML).join("");
+  return html;
+}
+
+export async function defaultRender(output: string): Promise<void> {
   const granted = await requestWriteClipboardPermission();
   if (!granted) {
     alert(
@@ -10,8 +30,7 @@ export async function copyHTML(transform?: (html: string) => string) {
     return;
   }
 
-  const html = scrape(getPromptResult());
-  setClipboardContent(transform ? transform(html) : html);
+  setClipboardContent(output);
 }
 
 export function setClipboardContent(text: string) {
@@ -51,23 +70,9 @@ async function requestWriteClipboardPermission() {
   return false;
 }
 
-export interface ScrapeOptions {
-  selectors: string[];
-}
-
-export function scrape(options: ScrapeOptions): string {
-  const elements = options.selectors.map((sel) => document.querySelector(sel));
-  const html = elements.map((element) => element?.outerHTML).join("");
-  return html;
-}
-
-export interface PromptResult {
-  selectors: string[];
-}
-
 const PROMPT = "Enter selectors to copy HTML from (comma-separated):";
 
-export function getPromptResult(): ScrapeOptions {
+export function defaultPrompt(): string[] {
   const commaSeparatedSelectors = prompt(PROMPT);
   if (commaSeparatedSelectors === null) {
     throw new Error("No selectors provided.");
@@ -77,5 +82,5 @@ export function getPromptResult(): ScrapeOptions {
     .split(",")
     .map((selector) => selector.trim());
 
-  return { selectors };
+  return selectors;
 }
