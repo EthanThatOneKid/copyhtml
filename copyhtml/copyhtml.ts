@@ -1,7 +1,15 @@
 /**
  * copyHTML copies the HTML of the elements specified by the user to the clipboard.
  */
-export function copyHTML(transform?: (html: string) => string) {
+export async function copyHTML(transform?: (html: string) => string) {
+  const granted = await requestWriteClipboardPermission();
+  if (!granted) {
+    alert(
+      "Please enable clipboard permission in your browser settings to use this feature.",
+    );
+    return;
+  }
+
   const html = scrape(getPromptResult());
   setClipboardContent(transform ? transform(html) : html);
 }
@@ -17,6 +25,30 @@ export function setClipboardContent(text: string) {
     .finally(() => {
       console.log("Copied to clipboard.", { text });
     });
+}
+
+async function requestWriteClipboardPermission() {
+  if (!navigator.clipboard) {
+    return false;
+  }
+
+  try {
+    const permissionStatus = await navigator.permissions.query({
+      name: "clipboard-read",
+      allowWithoutGesture: false,
+    } as unknown as PermissionDescriptor);
+
+    // Will be 'granted', 'denied' or 'prompt':
+    if (permissionStatus.state === "prompt") {
+      console.log("Requesting clipboard permission...");
+    }
+
+    return permissionStatus.state === "granted";
+  } catch (err) {
+    console.error(err);
+  }
+
+  return false;
 }
 
 export interface ScrapeOptions {
