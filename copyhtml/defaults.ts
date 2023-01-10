@@ -27,7 +27,7 @@ export function defaultPrompt(): string[] {
 
   const selectors = commaSeparatedSelectors
     .split(",")
-    .map((selector) => selector.trim());
+    .map((sel) => sel.trim());
 
   return selectors;
 }
@@ -37,11 +37,11 @@ export function setClipboardContent(text: string) {
     clipboard: { writeText: (text: string) => Promise<void> };
   }).clipboard
     .writeText(text)
+    .then(() => {
+      console.info("Copied to clipboard.", { text });
+    })
     .catch((err) => {
       console.error(err);
-    })
-    .finally(() => {
-      console.log("Copied to clipboard.", { text });
     });
 }
 

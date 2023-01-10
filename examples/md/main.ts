@@ -1,4 +1,4 @@
-import { requireShowdown } from "https://etok.codes/require/raw/main/examples/showdown/mod.ts";
+import { showdown } from "https://cdn.skypack.dev/showdown@2.1.0/dist/showdown.min.js?dts";
 
 import { copyHTML } from "../../copyhtml/copyhtml.ts";
 
@@ -11,14 +11,4 @@ const copyMD = copyHTML.bind(null, {
   },
 });
 
-requireShowdown()
-  .then((ready: boolean) => {
-    if (!ready) {
-      throw new Error("Showdown not ready.");
-    }
-
-    copyMD();
-  })
-  .catch((err: Error) => {
-    console.error(err);
-  });
+copyMD();
