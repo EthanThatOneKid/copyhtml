@@ -20,8 +20,8 @@ export async function defaultRender(output: string): Promise<void> {
 const PROMPT = "Enter selectors to copy HTML from (comma-separated):";
 
 export function defaultPrompt(): string[] {
-  const commaSeparatedSelectors = prompt(PROMPT);
-  if (commaSeparatedSelectors === null) {
+  const commaSeparatedSelectors = prompt(PROMPT, "");
+  if (!commaSeparatedSelectors) {
     throw new Error("No selectors provided.");
   }
 
