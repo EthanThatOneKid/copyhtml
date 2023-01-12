@@ -1,14 +1,13 @@
-import { showdown } from "https://cdn.skypack.dev/showdown@2.1.0/dist/showdown.min.js?dts";
+import { dynamicRequireShowdown } from "https://etok.codes/dynamic_require/raw/main/examples/showdown/mod.ts";
 
-import { copyHTML } from "../../copyhtml/copyhtml.ts";
+import { copyMD } from "./copymd.ts";
 
-const copyMD = copyHTML.bind(null, {
-  transform(html: string) {
-    const converter = new showdown.Converter();
-    const converted = converter.makeHtml(html);
-    console.log("Custom MD transformation!", { html, converted });
-    return converted;
-  },
-});
+dynamicRequireShowdown()
+  .then((prepared) => {
+    if (!prepared) {
+      throw new Error("Showdown not prepared!");
+    }
 
-copyMD();
+    return copyMD();
+  })
+  .catch((err) => console.error(err));
