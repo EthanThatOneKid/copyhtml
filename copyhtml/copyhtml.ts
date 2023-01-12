@@ -7,10 +7,10 @@ export interface CopyHTMLOptions {
   transform?: ProcessHTMLOptions["transform"];
 }
 
-export async function copyHTML(options: CopyHTMLOptions) {
+export async function copyHTML(options: CopyHTMLOptions = {}) {
   await processHTML({
-    ...options,
     scrape: defaultScrape,
+    transform: options.transform,
     render: defaultRender,
   });
 }

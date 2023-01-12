@@ -12,11 +12,14 @@ on an HTML document. Exported as a bookmarklet for easy use on any website.
 
 ## Installation
 
-TODO: Provide installation instructions.
+To install the default `copyhtml` bookmarklet, follow these instructions:
 
-## Usage
-
-TODO: Provide usage instructions.
+- Copy the bookmarklet from our example [Usage](examples/html/README.md#usage).
+- Add a new bookmark to your bookmarks bar.
+- Paste the bookmarklet into the URL field of the new bookmark.
+- Save the bookmark.
+- Navigate to any website and click the bookmark to invoke the bookmarklet and
+  copy the HTML of the selected element(s).
 
 ### Potential future improvements
 

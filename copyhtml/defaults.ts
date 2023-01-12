@@ -1,11 +1,13 @@
-export async function defaultScrape(): Promise<string> {
-  const selectors = await defaultPrompt();
-  const elements = selectors.map((sel) => document.querySelector(sel));
-  const html = elements.map((element) => element?.outerHTML).join("");
-  return html;
+export function defaultScrape(
+  selector = defaultPrompt(),
+): NodeListOf<Element> | undefined {
+  if (selector) {
+    const elements = document.querySelectorAll(selector);
+    return elements;
+  }
 }
 
-export async function defaultRender(output: string): Promise<void> {
+export async function defaultRender(output: unknown): Promise<void> {
   const granted = await requestWriteClipboardPermission();
   if (!granted) {
     alert(
@@ -14,22 +16,15 @@ export async function defaultRender(output: string): Promise<void> {
     return;
   }
 
-  setClipboardContent(output);
+  setClipboardContent(String(output));
 }
 
-const PROMPT = "Enter selectors to copy HTML from (comma-separated):";
+const PROMPT =
+  "Enter selector to copy HTML from elements that match the given selector:";
 
-export function defaultPrompt(): string[] {
-  const commaSeparatedSelectors = prompt(PROMPT, "");
-  if (!commaSeparatedSelectors) {
-    throw new Error("No selectors provided.");
-  }
-
-  const selectors = commaSeparatedSelectors
-    .split(",")
-    .map((sel) => sel.trim());
-
-  return selectors;
+export function defaultPrompt(): string {
+  const selector = prompt(PROMPT, "");
+  return selector || "";
 }
 
 export function setClipboardContent(text: string) {
