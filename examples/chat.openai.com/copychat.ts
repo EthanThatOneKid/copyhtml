@@ -15,7 +15,7 @@ function scrapeChat() {
   if (
     location.host !== "chat.openai.com" || location.pathname !== "/chat"
   ) {
-    alert("This script only works on chat.openai.com/chat");
+    alert("This script only works on https://chat.openai.com/chat");
     return;
   }
 
