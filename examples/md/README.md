@@ -24,9 +24,4 @@ This bookmarklet requires
 [Showdown](https://github.com/showdownjs/showdown#readme) to be loaded. This is
 done by the following code:
 
-```js
-import { requireShowdown } from "https://etok.codes/require/raw/main/examples/showdown/mod.ts";
-
-requireShowdown()
-  .then(copyMD);
-```
+<https://github.com/EthanThatOneKid/copyhtml/blob/91a5e4796f9ed2a3b0e2dd26d8054d62c5895197/examples/md/main.ts#L1-L13>
