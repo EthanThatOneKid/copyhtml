@@ -34,7 +34,7 @@ function transformChat(elements: NodeListOf<Element>) {
 
   const converter = new window.showdown.Converter();
   const allConverted: string[] = [];
-  for (let i = end; i < start; i++) {
+  for (let i = end; i >= start; i--) {
     const element = elements[i];
     const html = element?.outerHTML;
     if (!html) {
