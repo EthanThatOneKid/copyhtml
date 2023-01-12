@@ -1,7 +1,7 @@
 export interface ProcessHTMLOptions {
   render: (output: unknown) => void | Promise<void>;
   scrape: () => NodeListOf<Element> | undefined;
-  transform?: <T>(els: NodeListOf<Element>) => T;
+  transform?: (els: NodeListOf<Element>) => unknown;
 }
 
 function defaultTransform(elements: NodeListOf<Element>): string[] {
