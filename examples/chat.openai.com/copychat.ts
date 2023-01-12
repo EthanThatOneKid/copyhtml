@@ -15,7 +15,7 @@ function scrapeChat() {
   if (
     location.host !== "chat.openai.com" || location.pathname !== "/chat"
   ) {
-    alert("This script only works on chat.openai.com/chat");
+    alert("This script only works on https://chat.openai.com/chat");
     return;
   }
 
@@ -34,7 +34,7 @@ function transformChat(elements: NodeListOf<Element>) {
 
   const converter = new window.showdown.Converter();
   const allConverted: string[] = [];
-  for (let i = end; i < start; i++) {
+  for (let i = end; i >= start; i--) {
     const element = elements[i];
     const html = element?.outerHTML;
     if (!html) {
